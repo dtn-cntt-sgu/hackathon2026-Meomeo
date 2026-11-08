@@ -1,0 +1,1017 @@
+@import "tailwindcss";
+
+/*
+ * Hệ Thống Design Tokens TasteSkill 2.5 + Magic UI (Tailwind v4)
+ * Tham chiếu chuẩn: DESIGN_CONTEXT.md & docs/prototype.html
+ * 4 Tầng Phân Sắc Độ Nền (Elevation Layering) & Luminous Spotlight Surface
+ */
+
+:root,
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* 4 Tầng Sắc Độ Nền (Obsidian Carbon Magic UI Palette) */
+  --bg: #060608;
+  --panel: #0c0c0f;
+  --panel2: #141418;
+  --panel-2: #141418;
+  --panel3: #1e1e24;
+
+  /* Viền phát sáng tinh tế cho Magic UI & Zero Hard Borders */
+  --border: transparent;
+  --border-strong: transparent;
+  --border-focus: transparent;
+  --line: transparent;
+  --line-strong: transparent;
+  --magic-border: rgba(255, 255, 255, 0.085);
+  --surface-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+
+  /* Màu chữ */
+  --text: #fafafa;
+  --muted: #a1a1aa;
+  --faint: #71717a;
+  --subtle: #71717a;
+  --grad-text-from: #ffffff;
+  --grad-text-via: #d4d4d8;
+  --grad-text-to: rgba(255, 255, 255, 0.42);
+
+  /* Màu nhấn chủ đạo (Sky Cyan & Teal — Không dùng Vàng / Tím) */
+  --accent: #38bdf8;
+  --accent-hover: #7dd3fc;
+  --accent-glow: rgba(56, 189, 248, 0.24);
+  --on-accent: #041424;
+  --accent-2: #2dd4bf;
+
+  /* Màu Duolingo Tour & Hướng dẫn */
+  --duo-green: #22c55e;
+  --duo-green-dark: #15803d;
+  --duo-green-bg: rgba(34, 197, 94, 0.15);
+
+  /* Trạng thái bài học & tiến độ */
+  --ready: #38bdf8;
+  --ready-bg: rgba(56, 189, 248, 0.13);
+  --done: #34d399;
+  --done-bg: rgba(52, 211, 153, 0.14);
+  --fail: #f87171;
+  --fail-bg: rgba(248, 113, 113, 0.14);
+  --locked: #71717a;
+  --locked-bg: rgba(113, 113, 122, 0.14);
+
+  /* Khung hiển thị Code Studio */
+  --code-bg: #08080b;
+  --code-text: #f4f4f5;
+  --kw: #f472b6;
+  --str: #38bdf8;
+  --fn: #2dd4bf;
+  --gutter: #52525b;
+
+  /* Highlight dòng code theo ngữ cảnh */
+  --hl-step: rgba(56, 189, 248, 0.13);
+  --hl-focus: rgba(45, 212, 191, 0.15);
+  --hl-good: rgba(52, 211, 153, 0.16);
+  --hl-bad: rgba(248, 113, 113, 0.18);
+
+  /* Nút và trạng thái tương tác */
+  --btn-bg: #141418;
+  --btn-hover: #1e1e24;
+  --ink: #ffffff;
+  --on-amber: #041424;
+  --amber: var(--ready);
+  --green: var(--done);
+  --red: var(--fail);
+  --violet: #2dd4bf;
+  --blue: #38bdf8;
+
+  /* Trạng thái ánh xạ cho Tailwind */
+  --st-done-bg: var(--done-bg);
+  --st-done-border: transparent;
+  --st-done-fg: var(--done);
+  --st-ready-bg: var(--ready-bg);
+  --st-ready-border: transparent;
+  --st-ready-fg: var(--ready);
+  --st-fail-bg: var(--fail-bg);
+  --st-fail-border: transparent;
+  --st-fail-fg: var(--fail);
+  --st-lock-bg: var(--locked-bg);
+  --st-lock-border: transparent;
+  --st-lock-fg: var(--locked);
+
+  /* Đổ bóng & Lớp phủ */
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --shadow: 0 20px 48px -8px rgba(0, 0, 0, 0.8), 0 4px 16px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  --shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.58);
+  --overlay: rgba(5, 5, 7, 0.84);
+  --glass-bg: rgba(14, 14, 22, 0.96);
+  --backdrop: blur(16px);
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+
+  /* 4 Tầng Sắc Độ Nền (Warm Alabaster Light Palette) */
+  --bg: #faf9f6;
+  --panel: #ffffff;
+  --panel2: #f3f2ed;
+  --panel-2: #f3f2ed;
+  --panel3: #e7e5de;
+
+  /* Zero hard borders + Magic UI border */
+  --border: transparent;
+  --border-strong: transparent;
+  --border-focus: transparent;
+  --line: transparent;
+  --line-strong: transparent;
+  --magic-border: rgba(24, 24, 27, 0.09);
+  --surface-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.85);
+
+  /* Màu chữ */
+  --text: #18181b;
+  --muted: #52525b;
+  --faint: #71717a;
+  --subtle: #71717a;
+  --grad-text-from: #09090b;
+  --grad-text-via: #3f3f46;
+  --grad-text-to: rgba(24, 24, 27, 0.48);
+
+  /* Màu nhấn chủ đạo */
+  --accent: #0284c7;
+  --accent-hover: #0369a1;
+  --accent-glow: rgba(2, 132, 199, 0.18);
+  --on-accent: #ffffff;
+  --accent-2: #0d9488;
+
+  /* Màu Duolingo Tour & Hướng dẫn */
+  --duo-green: #16a34a;
+  --duo-green-dark: #15803d;
+  --duo-green-bg: rgba(22, 163, 74, 0.12);
+
+  /* Trạng thái */
+  --ready: #0284c7;
+  --ready-bg: rgba(2, 132, 199, 0.1);
+  --done: #059669;
+  --done-bg: rgba(5, 150, 105, 0.1);
+  --fail: #dc2626;
+  --fail-bg: rgba(220, 38, 38, 0.1);
+  --locked: #71717a;
+  --locked-bg: rgba(113, 113, 122, 0.1);
+
+  /* Khung hiển thị Code Studio */
+  --code-bg: #faf9f6;
+  --code-text: #18181b;
+  --kw: #db2777;
+  --str: #0284c7;
+  --fn: #0d9488;
+  --gutter: #a1a1aa;
+
+  /* Highlight dòng code */
+  --hl-step: rgba(2, 132, 199, 0.1);
+  --hl-focus: rgba(13, 148, 136, 0.12);
+  --hl-good: rgba(5, 150, 105, 0.12);
+  --hl-bad: rgba(220, 38, 38, 0.1);
+
+  /* Nút và trạng thái tương tác */
+  --btn-bg: #f3f2ed;
+  --btn-hover: #e7e5de;
+  --ink: #18181b;
+  --on-amber: #ffffff;
+  --amber: var(--ready);
+  --green: var(--done);
+  --red: var(--fail);
+  --violet: #0d9488;
+  --blue: #0284c7;
+
+  /* Trạng thái ánh xạ cho Tailwind */
+  --st-done-bg: var(--done-bg);
+  --st-done-border: transparent;
+  --st-done-fg: var(--done);
+  --st-ready-bg: var(--ready-bg);
+  --st-ready-border: transparent;
+  --st-ready-fg: var(--ready);
+  --st-fail-bg: var(--fail-bg);
+  --st-fail-border: transparent;
+  --st-fail-fg: var(--fail);
+  --st-lock-bg: var(--locked-bg);
+  --st-lock-border: transparent;
+  --st-lock-fg: var(--locked);
+
+  /* Đổ bóng & Lớp phủ */
+  --shadow-sm: 0 2px 8px rgba(24, 24, 27, 0.05);
+  --shadow: 0 16px 36px -6px rgba(24, 24, 27, 0.12), 0 4px 12px rgba(24, 24, 27, 0.06);
+  --shadow-hover: 0 8px 22px rgba(24, 24, 27, 0.1);
+  --overlay: rgba(24, 24, 27, 0.45);
+  --glass-bg: rgba(255, 255, 255, 0.9);
+  --backdrop: blur(12px);
+}
+
+:root {
+  --font-sans: 'Inter', var(--font-jakarta, system-ui), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', var(--font-jetbrains, monospace), Consolas, "Cascadia Code", monospace;
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snap: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@theme inline {
+  --color-background: var(--panel);
+  --color-border: var(--magic-border);
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel2);
+  --color-panel2: var(--panel2);
+  --color-panel3: var(--panel3);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-subtle: var(--faint);
+  --color-faint: var(--faint);
+
+  --color-code-bg: var(--code-bg);
+  --color-code-text: var(--code-text);
+  --color-gutter: var(--gutter);
+
+  --color-ready: var(--ready);
+  --color-ready-bg: var(--ready-bg);
+  --color-done: var(--done);
+  --color-done-bg: var(--done-bg);
+  --color-fail: var(--fail);
+  --color-fail-bg: var(--fail-bg);
+  --color-locked: var(--locked);
+  --color-locked-bg: var(--locked-bg);
+
+  --color-amber: var(--ready);
+  --color-green: var(--done);
+  --color-red: var(--fail);
+  --color-violet: var(--violet);
+  --color-blue: var(--blue);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-glow: var(--accent-glow);
+  --color-on-accent: var(--on-accent);
+  --color-accent-2: var(--accent-2);
+  --color-on-amber: var(--on-amber);
+  --color-ink: var(--ink);
+
+  --color-duo-green: var(--duo-green);
+  --color-duo-green-dark: var(--duo-green-dark);
+  --color-duo-green-bg: var(--duo-green-bg);
+
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-btn: var(--btn-bg);
+  --color-btn-hover: var(--btn-hover);
+  --color-overlay: var(--overlay);
+  --color-glass: var(--glass-bg);
+
+  --color-st-done-bg: var(--st-done-bg);
+  --color-st-done-border: var(--st-done-border);
+  --st-done-fg: var(--st-done-fg);
+  --color-st-done-fg: var(--st-done-fg);
+  --color-st-ready-bg: var(--st-ready-bg);
+  --color-st-ready-border: var(--st-ready-border);
+  --color-st-ready-fg: var(--st-ready-fg);
+  --color-st-fail-bg: var(--st-fail-bg);
+  --color-st-fail-border: var(--st-fail-border);
+  --color-st-fail-fg: var(--st-fail-fg);
+  --color-st-lock-bg: var(--st-lock-bg);
+  --color-st-lock-border: var(--st-lock-border);
+  --color-st-lock-fg: var(--st-lock-fg);
+
+  --color-hl-step: var(--hl-step);
+  --color-hl-focus: var(--hl-focus);
+  --color-hl-good: var(--hl-good);
+  --color-hl-bad: var(--hl-bad);
+
+  --shadow-pop: var(--shadow);
+  --shadow-surface: var(--shadow-sm);
+
+  --animate-gradient: gradient 6s linear infinite;
+  --animate-ripple: ripple 2.6s ease calc(var(--i, 0) * 0.14s) infinite;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background .2s var(--ease-snap), color .2s var(--ease-snap);
+}
+
+.brand-mark {
+  background-color: var(--accent);
+  mask: url("/simplifey.svg") center / contain no-repeat;
+}
+
+@media (forced-colors: active) {
+  .brand-mark {
+    forced-color-adjust: none;
+    background-color: CanvasText;
+  }
+}
+
+/* ==================== SELECTION TOKENS ==================== */
+::selection {
+  background: #38bdf8 !important;
+  color: #041424 !important;
+}
+::-moz-selection {
+  background: #38bdf8 !important;
+  color: #041424 !important;
+}
+
+/* ==================== BUTTON BASE & TASTESKILL MICRO-INTERACTIONS ==================== */
+@layer base {
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    border: none;
+    user-select: none;
+    transition: transform .18s var(--ease-spring),
+                background .18s var(--ease-spring),
+                border-color .18s var(--ease-spring),
+                filter .18s var(--ease-spring),
+                box-shadow .18s var(--ease-spring);
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    opacity: .45 !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Hover nhấc 2px & Active nhấn lún cho tất cả nút tương tác */
+.btn, .tbtn, .chip, .qchip, .slice, .sum-item, .ftab, .rtab, .seg button {
+  will-change: transform;
+}
+
+.btn:hover:not(:disabled),
+.tbtn:hover:not(:disabled),
+.slice:hover:not([aria-disabled="true"]),
+.sum-item:hover,
+.qchip:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.btn:active:not(:disabled),
+.tbtn:active:not(:disabled),
+.chip:active:not(:disabled),
+.qchip:active:not(:disabled),
+.slice:active:not([aria-disabled="true"]),
+.sum-item:active {
+  transform: translateY(1px) scale(0.98) !important;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+[tabindex="-1"]:focus,
+[tabindex="-1"]:focus-visible,
+#rp-title:focus,
+#rp-title:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--panel2);
+  border: none;
+  padding: 2px 6.5px;
+  border-radius: 6px;
+  color: var(--accent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Thanh cuộn tinh tế */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--panel3);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* ==================== NÚT 3D DUOLINGO ==================== */
+.duo-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: linear-gradient(180deg, #28d166 0%, var(--duo-green) 100%);
+  border: none;
+  color: #052e16;
+  font-size: 13.5px;
+  font-weight: 800;
+  padding: 9px 18px;
+  border-radius: 999px;
+  box-shadow: 0 4px 0 var(--duo-green-dark), 0 8px 20px -4px rgba(34, 197, 94, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s, filter 0.1s;
+}
+.duo-btn-primary:hover:not(:disabled) {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 var(--duo-green-dark), 0 10px 24px -4px rgba(34, 197, 94, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.duo-btn-primary:active:not(:disabled) {
+  transform: translateY(3px) !important;
+  box-shadow: 0 1px 0 var(--duo-green-dark) !important;
+}
+
+.duo-btn-sec {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #1f2937;
+  border: none;
+  color: #e5e7eb;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 9px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  transition: background .18s, transform .18s;
+}
+html[data-theme="light"] .duo-btn-sec {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+.duo-btn-sec:hover:not(:disabled) {
+  background: #374151;
+  transform: translateY(-1px);
+}
+
+.duo-btn-skip {
+  background: transparent;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #94a3b8;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.duo-btn-skip:hover {
+  color: #f8fafc;
+  text-decoration: underline;
+}
+
+/* ==================== BUTTON COCKPIT (.tbtn) ==================== */
+.tbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--panel2);
+  border: none;
+  border-radius: 9px;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text);
+  box-shadow: var(--surface-highlight);
+}
+.tbtn:hover:not(:disabled) {
+  background: var(--panel3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), var(--surface-highlight);
+}
+.tbtn.icon {
+  padding: 6px 9px;
+}
+.tbtn[aria-pressed="false"] {
+  opacity: .6;
+}
+
+/* ==================== MINI DIAGRAM 3 TẦNG KIẾN TRÚC ==================== */
+.arch-diagram {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 14px;
+  background: var(--panel2);
+  border: none;
+  box-shadow: var(--surface-highlight);
+  margin-bottom: 4px;
+}
+.arch-node {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-align: center;
+  padding: 8px 6px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.25;
+  background: var(--panel);
+  border: none;
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--magic-border);
+  cursor: pointer;
+  transition: all .2s var(--ease-spring);
+}
+.arch-node:hover:not(.active) {
+  background: var(--panel3);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+}
+.arch-node.active {
+  background: var(--hl-step);
+  color: var(--text);
+  font-weight: 700;
+  border: none;
+  box-shadow: inset 0 0 0 1.5px var(--accent), 0 4px 16px -4px var(--accent-glow);
+}
+.arch-arrow {
+  display: inline-flex;
+  align-items: center;
+  color: var(--muted);
+  font-size: 12px;
+  flex: none;
+}
+
+/* ==================== CODE SELECTION POPOVER (UI-34) ==================== */
+.code-float-btn {
+  position: fixed;
+  z-index: 1025;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 12px;
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: var(--on-accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45), 0 0 14px var(--accent-glow);
+  cursor: pointer;
+  pointer-events: auto !important;
+  animation: codeFloatBtnIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+.code-float-btn:hover {
+  transform: translateY(-1px) scale(1.04);
+  filter: brightness(1.1);
+}
+.code-float-btn:active {
+  transform: translateY(0) scale(0.96);
+}
+
+.code-pop {
+  position: fixed;
+  z-index: 1020;
+  width: min(380px, calc(100vw - 32px));
+  background: var(--glass-bg);
+  border: none;
+  border-radius: 16px;
+  padding: 16px 18px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  animation: fadeUp .18s var(--ease-spring);
+  backdrop-filter: var(--backdrop);
+  pointer-events: auto;
+}
+.code-pop-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-right: 22px;
+}
+.code-pop-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--hl-step);
+  border: none;
+  border-radius: 999px;
+  padding: 3px 10px;
+}
+.code-pop-tag.warn {
+  color: var(--ready);
+  background: var(--ready-bg);
+}
+.code-pop-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+.code-pop-snippet {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: var(--code-bg);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--accent);
+  margin-bottom: 8px;
+  word-break: break-all;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.code-pop-body {
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+.code-pop-body b {
+  color: var(--text);
+}
+.code-pop-body code {
+  font-size: 11.5px;
+  color: var(--accent);
+  background: var(--panel3);
+  border: none;
+}
+.code-pop-action {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* ==================== DUOLINGO-STYLE GUIDED TOUR ==================== */
+#tourOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: auto;
+  animation: fadeIn .2s ease;
+}
+#tourBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(4, 7, 13, 0.82);
+  backdrop-filter: blur(2px);
+  cursor: default;
+}
+body.in-tour #main,
+body.in-tour .top {
+  pointer-events: none !important;
+  user-select: none !important;
+}
+body.in-tour #tourOverlay,
+body.in-tour .duo-popup {
+  pointer-events: auto !important;
+}
+body.in-tour.tour-allow-select #colMid,
+body.in-tour.tour-allow-select .sf-code,
+body.in-tour.tour-allow-select .monaco-editor {
+  pointer-events: auto !important;
+  user-select: text !important;
+}
+body.in-tour #codeExplainPop {
+  pointer-events: auto !important;
+  z-index: 1020 !important;
+}
+body.in-tour #codeExplainBtn {
+  pointer-events: auto !important;
+  z-index: 1025 !important;
+}
+
+.tour-focused {
+  position: relative !important;
+  z-index: 1005 !important;
+  background: var(--panel) !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: 0 0 40px 6px var(--accent-glow), 0 0 0 1.5px var(--accent) !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+.duo-popup {
+  position: fixed;
+  z-index: 1010;
+  width: min(350px, calc(100vw - 32px));
+  background: #111827;
+  border: none;
+  border-radius: 20px;
+  padding: 20px 22px;
+  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.78), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  color: #f9fafb;
+  animation: duoBounce 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: top 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html[data-theme="light"] .duo-popup {
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 24px 50px rgba(15, 23, 42, 0.2);
+}
+
+.duo-popup::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+.duo-popup.arrow-right::after {
+  right: -10px; top: 35px;
+  border-width: 9px 0 9px 11px;
+  border-color: transparent transparent transparent #111827;
+}
+.duo-popup.arrow-left::after {
+  left: -10px; top: 35px;
+  border-width: 9px 11px 9px 0;
+  border-color: transparent #111827 transparent transparent;
+}
+.duo-popup.arrow-top::after {
+  top: -10px; left: 35px;
+  border-width: 0 9px 11px 9px;
+  border-color: transparent transparent #111827 transparent;
+}
+.duo-popup.arrow-bottom::after {
+  bottom: -10px; left: 35px;
+  border-width: 11px 9px 0 9px;
+  border-color: #111827 transparent transparent transparent;
+}
+html[data-theme="light"] .duo-popup.arrow-right::after { border-color: transparent transparent transparent #ffffff; }
+html[data-theme="light"] .duo-popup.arrow-left::after { border-color: transparent #ffffff transparent transparent; }
+html[data-theme="light"] .duo-popup.arrow-top::after { border-color: transparent transparent #ffffff transparent; }
+html[data-theme="light"] .duo-popup.arrow-bottom::after { border-color: #ffffff transparent transparent transparent; }
+
+.duo-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--duo-green);
+  margin-bottom: 6px;
+}
+.duo-title {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  color: var(--duo-green);
+  letter-spacing: -0.01em;
+}
+.duo-body {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin-bottom: 18px;
+}
+html[data-theme="light"] .duo-body { color: #475569; }
+.duo-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.duo-next-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  position: relative;
+}
+.duo-bounce-arrow {
+  display: inline-flex;
+  align-items: center;
+  color: var(--duo-green);
+  width: 22px;
+  height: 22px;
+  flex: none;
+  animation: duoBounceArrow 0.8s ease-in-out infinite alternate;
+}
+
+/* ==================== FEYNMAN ARENA & DELTA BAR ==================== */
+.delta {
+  animation: fadeUp .25s var(--ease-spring);
+}
+.delta .dname {
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+.delta .dname b {
+  color: var(--text);
+}
+.bar {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--panel3);
+  overflow: hidden;
+}
+.bar i {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+}
+.bar .base {
+  background: var(--accent);
+  width: var(--base);
+}
+.bar .diff {
+  left: var(--base);
+  width: var(--diff);
+  animation: grow .7s ease-out;
+}
+.bar .diff.up {
+  background: var(--done);
+}
+.bar .diff.down {
+  background: var(--fail);
+}
+
+.seg {
+  display: flex;
+  padding: 3px;
+  gap: 3px;
+  border: none;
+  border-radius: 11px;
+  overflow: hidden;
+  background: var(--panel2);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.seg button {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  transition: all .2s var(--ease-spring);
+}
+.seg button:hover {
+  background: var(--panel3);
+  color: var(--text);
+}
+.seg button[aria-checked="true"],
+.seg button.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: var(--on-accent);
+  font-weight: 700;
+  box-shadow: 0 2px 10px -1px var(--accent-glow);
+}
+
+/* ==================== PILL BADGES ==================== */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 700;
+  margin-left: 6px;
+}
+.pill.ok {
+  background: var(--done-bg);
+  color: var(--done);
+}
+.pill.no {
+  background: var(--fail-bg);
+  color: var(--fail);
+}
+
+/* ==================== KEYFRAME ANIMATIONS ==================== */
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes ripple {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+}
+
+@keyframes duoBounce {
+  0% { transform: scale(0.92); opacity: 0; }
+  60% { transform: scale(1.02); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes duoShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.duo-shake {
+  animation: duoShake 0.35s ease-in-out !important;
+}
+
+@keyframes duoBounceArrow {
+  from { transform: translateX(0); }
+  to { transform: translateX(6px); }
+}
+
+@keyframes codeFloatBtnIn {
+  from { opacity: 0; transform: translateY(4px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes hlIn {
+  from { background-color: transparent; }
+}
+
+@keyframes grow {
+  from { width: 0; }
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.03); box-shadow: 0 0 0 4px var(--done-bg); }
+  100% { transform: scale(1); }
+}
+
+.glass {
+  background: var(--glass-bg);
+  border: none;
+  box-shadow: var(--shadow);
+  -webkit-backdrop-filter: var(--backdrop);
+  backdrop-filter: var(--backdrop);
+}
+
+.sf-fade-in {
+  animation: fadeUp 0.18s var(--ease-spring) both;
+}
+
+.sf-toast-in {
+  animation: fadeUp 0.22s var(--ease-spring) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    scroll-behavior: auto !important;
+  }
+}

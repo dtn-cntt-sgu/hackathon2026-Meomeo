@@ -1,0 +1,16 @@
+.git
+.github
+.next
+node_modules
+.env*
+!.env.example
+.kb
+.claude
+AGENTS.md
+CLAUDE.md
+archive
+review
+pitch
+docs
+coverage
+npm-debug.log*

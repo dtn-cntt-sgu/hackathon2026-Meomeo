@@ -1,0 +1,13 @@
+{
+  "_cau_hoi": {
+    "N3:1": "Hãy giải thích vai trò của hàm validateInput trong luồng xử lý dữ liệu.",
+    "N3:2": "Kiến trúc phân tầng của module này hoạt động như thế nào giữa Controller và Service?"
+  },
+  "N3:1": [
+    "Hàm này dùng để kiểm tra dữ liệu đầu vào của người dùng trước khi lưu.",
+    "Hàm xác thực tính hợp lệ của DTO, trả về lỗi nếu dữ liệu thiếu hoặc sai định dạng."
+  ],
+  "N3:2": [
+    "Tầng Controller nhận request, gọi Middleware kiểm tra quyền rồi chuyển sang Service xử lý nghiệp vụ."
+  ]
+}

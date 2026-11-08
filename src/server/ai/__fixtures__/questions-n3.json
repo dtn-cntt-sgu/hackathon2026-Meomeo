@@ -1,0 +1,22 @@
+[
+  {
+    "skill": "DB_OPTIMIZATION",
+    "feynman_question": "Trang danh sách có 200 sản phẩm. Vì sao càng nhiều sản phẩm thì trang càng chậm?",
+    "reference_answer": "Sau khi `productRepo.findAll` lấy danh sách 1 lần, vòng lặp gọi `categoryRepo.findById` cho từng sản phẩm. Mỗi sản phẩm tốn thêm 1 truy vấn, nên 200 sản phẩm thành 201 truy vấn.",
+    "must_have_points": [
+      "Mỗi sản phẩm tốn thêm 1 truy vấn để lấy loại hàng",
+      "Số truy vấn tăng theo số sản phẩm, không cố định"
+    ],
+    "fix": "Cho findAll lấy kèm loại hàng (relations: ['category']) ⇒ còn 1 truy vấn; hoặc gom các categoryId rồi tìm 1 lần bằng IN (...) ⇒ còn 2 truy vấn."
+  },
+  {
+    "skill": "LAYERED_SEPARATION",
+    "feynman_question": "Sản phẩm trả về có thêm thông tin loại hàng. Loại hàng đó từ đâu mà có?",
+    "reference_answer": "Route ở `product.controller.ts` gọi `productService.listProducts`; trong `listProducts`, vòng `for` gọi `categoryRepo.findById(p.categoryId)`; `findById` ở `category.repo.ts` dùng `this.repo.findOne`; kết quả gán vào `p.category` rồi trả về route.",
+    "must_have_points": [
+      "Nêu đúng đường đi: route gọi service, service nhờ repo tìm loại hàng",
+      "Loại hàng tìm theo `categoryId` của từng sản phẩm rồi gắn vào sản phẩm trước khi trả về"
+    ],
+    "fix": "Không có lỗi cần sửa ở góc này."
+  }
+]

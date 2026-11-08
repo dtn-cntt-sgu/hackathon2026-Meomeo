@@ -1,0 +1,23 @@
+{
+  "core_accuracy": 50,
+  "simplicity": 70,
+  "intent": "ANSWER",
+  "points": [
+    {
+      "index": 1,
+      "covered": false,
+      "quote": ""
+    },
+    {
+      "index": 2,
+      "covered": false,
+      "quote": ""
+    }
+  ],
+  "misconception": "Nghĩ trang chậm do dữ liệu lớn, chưa thấy mỗi sản phẩm tốn thêm một truy vấn.",
+  "follow_up_question": "Sau khi có danh sách, trang còn cần thêm thông tin gì cho từng sản phẩm? Thông tin đó được lấy bằng cách nào?",
+  "follow_up_type": "CONCEPT",
+  "follow_up_step_index": null,
+  "feedback": "Bạn thấy đúng là nhiều sản phẩm thì chậm hơn, nhưng chưa nói vì sao.",
+  "detected_jargons": []
+}

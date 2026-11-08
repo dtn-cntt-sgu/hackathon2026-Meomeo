@@ -1,0 +1,52 @@
+{
+  "skills": [
+    {
+      "skill": "DB_OPTIMIZATION",
+      "step": 2,
+      "symbol": "findById",
+      "reason": "Vòng `for` gọi `categoryRepo.findById` cho từng sản phẩm"
+    },
+    {
+      "skill": "LAYERED_SEPARATION",
+      "step": 1,
+      "symbol": "productService",
+      "reason": "Route chỉ gọi `productService.listProducts`, không tự truy vấn database"
+    }
+  ],
+  "architecture": {
+    "patterns": [
+      "LAYERED",
+      "REPOSITORY"
+    ],
+    "summary": "Chia 3 tầng: route nhận yêu cầu, service xử lý, repository làm việc với database."
+  },
+  "steps": [
+    {
+      "step": 1,
+      "text": "Nhận yêu cầu GET /products rồi giao cho `productService.listProducts`."
+    },
+    {
+      "step": 2,
+      "text": "Lấy danh sách bằng `productRepo.findAll`, rồi gắn loại hàng cho từng sản phẩm bằng `categoryRepo.findById`."
+    },
+    {
+      "step": 3,
+      "text": "Tìm một loại hàng theo `id` bằng `this.repo.findOne`."
+    }
+  ],
+  "strengths": [
+    {
+      "step": 1,
+      "text": "Route không chứa truy vấn database; muốn đổi cách lấy dữ liệu chỉ cần sửa service hoặc repository."
+    }
+  ],
+  "weak_points": [
+    {
+      "skill": "DB_OPTIMIZATION",
+      "step": 2,
+      "symbol": "findById",
+      "what": "Vòng `for` gọi `categoryRepo.findById` cho từng sản phẩm.",
+      "consequence": "Càng nhiều sản phẩm, database bị hỏi càng nhiều lần, trang càng chậm."
+    }
+  ]
+}

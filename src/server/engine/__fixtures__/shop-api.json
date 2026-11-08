@@ -1,0 +1,923 @@
+{
+  "engine_version": "1.8.1",
+  "repo_name": "shop-api",
+  "snapshot": {
+    "source": "GITHUB",
+    "repo_key": "demo/shop-api",
+    "snapshot_id": "3f9a1c7e5b2d4a8f6c0e1d9b7a5c3e2f4b6d8a0c",
+    "snapshot_id_kind": "COMMIT_SHA",
+    "subdir": "",
+    "ref_label": "main"
+  },
+  "fingerprint": {
+    "archetype": "WEB_BACKEND",
+    "primary_language": "TYPESCRIPT",
+    "language_breakdown": [
+      {
+        "language": "TYPESCRIPT",
+        "tier": "RESOLVED",
+        "code_bytes": 18432
+      }
+    ],
+    "graph_confidence": "HIGH",
+    "detected_framework": "Express",
+    "tech_stack": [
+      "express",
+      "typeorm",
+      "pg",
+      "zod",
+      "jsonwebtoken"
+    ],
+    "is_monorepo": false,
+    "root_dir_offset": ""
+  },
+  "total_files": 19,
+  "nodes": [
+    {
+      "id": "slice-register",
+      "title": "Register User",
+      "title_source": "ROUTE",
+      "title_evidence": "POST /register",
+      "node_type": "ARCHITECTURAL_DATA_FLOW",
+      "entry_symbol": "src/routes/auth.routes.ts#POST /register",
+      "prerequisites": [],
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "files": [
+        "src/routes/auth.routes.ts",
+        "src/services/auth.service.ts",
+        "src/repos/user.repo.ts"
+      ],
+      "languages": [
+        "TYPESCRIPT"
+      ],
+      "support_tier": "RESOLVED",
+      "cognitive_complexity": 3,
+      "rank_score": 0.1204,
+      "is_vip_algorithm": false,
+      "is_capstone": false,
+      "uncle_bob": {
+        "instability": 0.6,
+        "abstractness": 0.4,
+        "distance": 0,
+        "diagnosis": "BALANCED",
+        "is_exempt": false
+      },
+      "trace_steps": [
+        {
+          "step_number": 1,
+          "layer": "ENTRY_POINT",
+          "file_path": "src/routes/auth.routes.ts",
+          "function_name": "POST /register",
+          "line_start": 6,
+          "line_end": 10,
+          "snippet": "router.post('/register', async (req, res) => {\n  const dto = registerSchema.parse(req.body);\n  const user = await authService.register(dto);\n  res.status(201).json(user);\n});",
+          "snippet_line_map": [
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "step_number": 2,
+          "layer": "BUSINESS_LOGIC",
+          "file_path": "src/services/auth.service.ts",
+          "function_name": "AuthService.register",
+          "line_start": 12,
+          "line_end": 17,
+          "snippet": "async register(dto) {\n  const exists = await userRepo.findByEmail(dto.email);\n  if (exists) throw new ConflictError('Email đã tồn tại');\n  const passwordHash = await hashPassword(dto.password);\n  return userRepo.create({ ...dto, password: passwordHash });\n}",
+          "snippet_line_map": [
+            12,
+            13,
+            14,
+            15,
+            16,
+            17
+          ]
+        },
+        {
+          "step_number": 3,
+          "layer": "DATA_ACCESS",
+          "file_path": "src/repos/user.repo.ts",
+          "function_name": "UserRepo.findByEmail",
+          "line_start": 9,
+          "line_end": 11,
+          "snippet": "findByEmail(email) {\n  return this.repo.findOne({ where: { email } });\n}",
+          "snippet_line_map": [
+            9,
+            10,
+            11
+          ]
+        }
+      ],
+      "dto_snippet": "const registerSchema = z.object({\n  email: z.string().email(),\n  name: z.string().min(1),\n  password: z.string().min(8),\n});",
+      "group_id": "grp-acc",
+      "entities": [
+        {
+          "name": "User",
+          "ops": [
+            "CREATE",
+            "READ"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slice-profile",
+      "title": "Get Profile",
+      "title_source": "ROUTE",
+      "title_evidence": "GET /profile",
+      "node_type": "ARCHITECTURAL_DATA_FLOW",
+      "entry_symbol": "src/routes/user.routes.ts#GET /profile",
+      "prerequisites": [
+        "slice-register"
+      ],
+      "position": {
+        "x": 280,
+        "y": 0
+      },
+      "files": [
+        "src/routes/user.routes.ts",
+        "src/middlewares/auth.middleware.ts",
+        "src/services/user.service.ts"
+      ],
+      "languages": [
+        "TYPESCRIPT"
+      ],
+      "support_tier": "RESOLVED",
+      "cognitive_complexity": 4,
+      "rank_score": 0.1388,
+      "is_vip_algorithm": false,
+      "is_capstone": false,
+      "uncle_bob": {
+        "instability": 0.5,
+        "abstractness": 0.5,
+        "distance": 0,
+        "diagnosis": "BALANCED",
+        "is_exempt": false
+      },
+      "trace_steps": [
+        {
+          "step_number": 1,
+          "layer": "ENTRY_POINT",
+          "file_path": "src/routes/user.routes.ts",
+          "function_name": "GET /profile",
+          "line_start": 5,
+          "line_end": 9,
+          "snippet": "// Liên hệ hỗ trợ: *** (email giả để test maskSensitive)\nrouter.get('/profile', authMiddleware, async (req, res) => {\n  const user = await userService.getProfile(req.user.id);\n  res.json(user);\n});",
+          "snippet_line_map": [
+            5,
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "step_number": 2,
+          "layer": "MIDDLEWARE",
+          "file_path": "src/middlewares/auth.middleware.ts",
+          "function_name": "authMiddleware",
+          "line_start": 3,
+          "line_end": 12,
+          "snippet": "const JWT_SECRET = \"<REDACTED_SECRET>\";\nexport function authMiddleware(req, res, next) {\n  const token = req.headers.authorization?.split(' ')[1];\n  try {\n    req.user = jwt.verify(token, JWT_SECRET);\n    next();\n  } catch {\n    res.status(401).json({ message: 'Unauthorized' });\n  }\n}",
+          "snippet_line_map": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "step_number": 3,
+          "layer": "DATA_ACCESS",
+          "file_path": "src/services/user.service.ts",
+          "function_name": "UserService.getProfile",
+          "line_start": 10,
+          "line_end": 12,
+          "snippet": "async getProfile(id) {\n  return userRepo.findOne({ where: { id }, select: ['id', 'name', 'email'] });\n}",
+          "snippet_line_map": [
+            10,
+            11,
+            12
+          ]
+        }
+      ],
+      "dto_snippet": "",
+      "group_id": "grp-acc",
+      "entities": [
+        {
+          "name": "User",
+          "ops": [
+            "READ"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slice-product-list",
+      "title": "List Products",
+      "title_source": "ROUTE",
+      "title_evidence": "GET /products",
+      "node_type": "ARCHITECTURAL_DATA_FLOW",
+      "entry_symbol": "src/controllers/product.controller.ts#GET /products",
+      "prerequisites": [],
+      "position": {
+        "x": 0,
+        "y": 160
+      },
+      "files": [
+        "src/controllers/product.controller.ts",
+        "src/services/product.service.ts",
+        "src/repos/category.repo.ts"
+      ],
+      "languages": [
+        "TYPESCRIPT"
+      ],
+      "support_tier": "RESOLVED",
+      "cognitive_complexity": 4,
+      "rank_score": 0.1311,
+      "is_vip_algorithm": false,
+      "is_capstone": false,
+      "uncle_bob": {
+        "instability": 0.5,
+        "abstractness": 0.4,
+        "distance": 0.1,
+        "diagnosis": "BALANCED",
+        "is_exempt": false
+      },
+      "trace_steps": [
+        {
+          "step_number": 1,
+          "layer": "ENTRY_POINT",
+          "file_path": "src/controllers/product.controller.ts",
+          "function_name": "GET /products",
+          "line_start": 8,
+          "line_end": 11,
+          "snippet": "router.get('/products', async (req, res) => {\n  const products = await productService.listProducts();\n  res.json(products);\n});",
+          "snippet_line_map": [
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "step_number": 2,
+          "layer": "BUSINESS_LOGIC",
+          "file_path": "src/services/product.service.ts",
+          "function_name": "ProductService.listProducts",
+          "line_start": 14,
+          "line_end": 20,
+          "snippet": "async listProducts() {\n  const products = await productRepo.findAll();\n  for (const p of products) {\n    p.category = await categoryRepo.findById(p.categoryId);\n  }\n  return products;\n}",
+          "snippet_line_map": [
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ]
+        },
+        {
+          "step_number": 3,
+          "layer": "DATA_ACCESS",
+          "file_path": "src/repos/category.repo.ts",
+          "function_name": "CategoryRepo.findById",
+          "line_start": 5,
+          "line_end": 7,
+          "snippet": "findById(id) {\n  return this.repo.findOne({ where: { id } });\n}",
+          "snippet_line_map": [
+            5,
+            6,
+            7
+          ]
+        }
+      ],
+      "dto_snippet": "",
+      "group_id": "grp-buy",
+      "entities": [
+        {
+          "name": "Product",
+          "ops": [
+            "READ"
+          ]
+        },
+        {
+          "name": "Category",
+          "ops": [
+            "READ"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slice-cart",
+      "title": "Add To Cart",
+      "title_source": "ROUTE",
+      "title_evidence": "POST /cart/items",
+      "node_type": "ARCHITECTURAL_DATA_FLOW",
+      "entry_symbol": "src/routes/cart.routes.ts#POST /cart/items",
+      "prerequisites": [
+        "slice-profile"
+      ],
+      "position": {
+        "x": 560,
+        "y": 0
+      },
+      "files": [
+        "src/routes/cart.routes.ts",
+        "src/middlewares/auth.middleware.ts",
+        "src/services/cart.service.ts"
+      ],
+      "languages": [
+        "TYPESCRIPT"
+      ],
+      "support_tier": "RESOLVED",
+      "cognitive_complexity": 5,
+      "rank_score": 0.1502,
+      "is_vip_algorithm": false,
+      "is_capstone": false,
+      "uncle_bob": {
+        "instability": 0.7,
+        "abstractness": 0.3,
+        "distance": 0,
+        "diagnosis": "BALANCED",
+        "is_exempt": false
+      },
+      "trace_steps": [
+        {
+          "step_number": 1,
+          "layer": "ENTRY_POINT",
+          "file_path": "src/routes/cart.routes.ts",
+          "function_name": "POST /cart/items",
+          "line_start": 7,
+          "line_end": 11,
+          "snippet": "router.post('/cart/items', authMiddleware, async (req, res) => {\n  const dto = addItemSchema.parse(req.body);\n  const cart = await cartService.addItem(req.user.id, dto);\n  res.status(201).json(cart);\n});",
+          "snippet_line_map": [
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "step_number": 2,
+          "layer": "MIDDLEWARE",
+          "file_path": "src/middlewares/auth.middleware.ts",
+          "function_name": "authMiddleware",
+          "line_start": 3,
+          "line_end": 12,
+          "snippet": "const JWT_SECRET = \"<REDACTED_SECRET>\";\nexport function authMiddleware(req, res, next) {\n  const token = req.headers.authorization?.split(' ')[1];\n  try {\n    req.user = jwt.verify(token, JWT_SECRET);\n    next();\n  } catch {\n    res.status(401).json({ message: 'Unauthorized' });\n  }\n}",
+          "snippet_line_map": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "step_number": 3,
+          "layer": "BUSINESS_LOGIC",
+          "file_path": "src/services/cart.service.ts",
+          "function_name": "CartService.addItem",
+          "line_start": 8,
+          "line_end": 18,
+          "snippet": "async getCart(userId) {\n  return this.carts.get(userId) ?? { items: [] };\n}\nasync addItem(userId, dto) {\n  const cart = await this.getCart(userId);\n  const line = cart.items.find((i) => i.productId === dto.productId);\n  if (line) line.qty += dto.qty;\n  else cart.items.push({ productId: dto.productId, qty: dto.qty });\n  this.carts.set(userId, cart);\n  return cart;\n}",
+          "snippet_line_map": [
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18
+          ]
+        }
+      ],
+      "dto_snippet": "const addItemSchema = z.object({\n  productId: z.string().uuid(),\n  qty: z.number().int().positive(),\n});",
+      "group_id": "grp-buy",
+      "entities": [
+        {
+          "name": "Cart",
+          "ops": [
+            "READ",
+            "UPDATE"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slice-order-checkout",
+      "title": "Place Order",
+      "title_source": "ROUTE",
+      "title_evidence": "POST /orders/checkout",
+      "node_type": "ARCHITECTURAL_DATA_FLOW",
+      "entry_symbol": "src/routes/order.routes.ts#POST /checkout",
+      "prerequisites": [
+        "slice-cart",
+        "slice-product-list"
+      ],
+      "position": {
+        "x": 840,
+        "y": 80
+      },
+      "files": [
+        "src/routes/order.routes.ts",
+        "src/middlewares/auth.middleware.ts",
+        "src/services/order.service.ts"
+      ],
+      "languages": [
+        "TYPESCRIPT"
+      ],
+      "support_tier": "RESOLVED",
+      "cognitive_complexity": 9,
+      "rank_score": 0.2417,
+      "is_vip_algorithm": false,
+      "is_capstone": true,
+      "uncle_bob": {
+        "instability": 0.8,
+        "abstractness": 0.2,
+        "distance": 0,
+        "diagnosis": "BALANCED",
+        "is_exempt": false
+      },
+      "trace_steps": [
+        {
+          "step_number": 1,
+          "layer": "ENTRY_POINT",
+          "file_path": "src/routes/order.routes.ts",
+          "function_name": "POST /checkout",
+          "line_start": 12,
+          "line_end": 15,
+          "snippet": "router.post('/checkout', authMiddleware, async (req, res) => {\n  const order = await orderService.checkout(req.user.id, req.body.items);\n  res.status(201).json(order);\n});",
+          "snippet_line_map": [
+            12,
+            13,
+            14,
+            15
+          ]
+        },
+        {
+          "step_number": 2,
+          "layer": "MIDDLEWARE",
+          "file_path": "src/middlewares/auth.middleware.ts",
+          "function_name": "authMiddleware",
+          "line_start": 3,
+          "line_end": 12,
+          "snippet": "const JWT_SECRET = \"<REDACTED_SECRET>\";\nexport function authMiddleware(req, res, next) {\n  const token = req.headers.authorization?.split(' ')[1];\n  try {\n    req.user = jwt.verify(token, JWT_SECRET);\n    next();\n  } catch {\n    res.status(401).json({ message: 'Unauthorized' });\n  }\n}",
+          "snippet_line_map": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "step_number": 3,
+          "layer": "DATA_ACCESS",
+          "file_path": "src/services/order.service.ts",
+          "function_name": "OrderService.checkout",
+          "line_start": 20,
+          "line_end": 29,
+          "snippet": "async checkout(userId, items) {\n  for (const item of items) {\n    const product = await productRepo.findOne({ where: { id: item.productId } });\n    if (product.stock < item.qty) throw new Error('Hết hàng');\n    product.stock -= item.qty;\n    await productRepo.save(product);\n  }\n  const order = orderRepo.create({ userId, items });\n  return orderRepo.save(order);\n}",
+          "snippet_line_map": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29
+          ]
+        }
+      ],
+      "dto_snippet": "",
+      "group_id": "grp-buy",
+      "entities": [
+        {
+          "name": "Order",
+          "ops": [
+            "CREATE"
+          ]
+        },
+        {
+          "name": "Product",
+          "ops": [
+            "READ",
+            "UPDATE"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slice-send-email",
+      "title": "Send Confirmation Email",
+      "title_source": "ENTRY_SYMBOL",
+      "title_evidence": "OrderPlaced",
+      "node_type": "ARCHITECTURAL_DATA_FLOW",
+      "entry_symbol": "src/events/order-placed.handler.ts#OrderPlaced",
+      "prerequisites": [
+        "slice-order-checkout"
+      ],
+      "position": {
+        "x": 1120,
+        "y": 0
+      },
+      "files": [
+        "src/events/order-placed.handler.ts",
+        "src/services/email.service.ts",
+        "src/repos/user.repo.ts"
+      ],
+      "languages": [
+        "TYPESCRIPT"
+      ],
+      "support_tier": "RESOLVED",
+      "cognitive_complexity": 3,
+      "rank_score": 0.0914,
+      "is_vip_algorithm": false,
+      "is_capstone": false,
+      "uncle_bob": {
+        "instability": 0.6,
+        "abstractness": 0.3,
+        "distance": 0.1,
+        "diagnosis": "BALANCED",
+        "is_exempt": false
+      },
+      "trace_steps": [
+        {
+          "step_number": 1,
+          "layer": "ENTRY_POINT",
+          "file_path": "src/events/order-placed.handler.ts",
+          "function_name": "OrderPlaced",
+          "line_start": 5,
+          "line_end": 11,
+          "snippet": "orderEvents.on('OrderPlaced', async (order) => {\n  try {\n    await emailService.sendConfirmation(order);\n  } catch (err) {\n    logger.error('Gửi email thất bại', err);\n  }\n});",
+          "snippet_line_map": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "step_number": 2,
+          "layer": "BUSINESS_LOGIC",
+          "file_path": "src/services/email.service.ts",
+          "function_name": "EmailService.sendConfirmation",
+          "line_start": 11,
+          "line_end": 19,
+          "snippet": "async sendConfirmation(order) {\n  const user = await userRepo.findById(order.userId);\n  const html = renderTemplate('order-confirmation', { order, user });\n  await this.transport.sendMail({\n    to: user.email,\n    subject: `Đơn hàng #${order.id}`,\n    html,\n  });\n}",
+          "snippet_line_map": [
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ]
+        },
+        {
+          "step_number": 3,
+          "layer": "DATA_ACCESS",
+          "file_path": "src/repos/user.repo.ts",
+          "function_name": "UserRepo.findById",
+          "line_start": 13,
+          "line_end": 15,
+          "snippet": "findById(id) {\n  return this.repo.findOne({ where: { id } });\n}",
+          "snippet_line_map": [
+            13,
+            14,
+            15
+          ]
+        }
+      ],
+      "dto_snippet": "",
+      "group_id": "grp-after",
+      "entities": [
+        {
+          "name": "User",
+          "ops": [
+            "READ"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slice-revenue-report",
+      "title": "Revenue Report",
+      "title_source": "ROUTE",
+      "title_evidence": "GET /reports/revenue",
+      "node_type": "ARCHITECTURAL_DATA_FLOW",
+      "entry_symbol": "src/routes/report.routes.ts#GET /reports/revenue",
+      "prerequisites": [
+        "slice-order-checkout"
+      ],
+      "position": {
+        "x": 1120,
+        "y": 160
+      },
+      "files": [
+        "src/routes/report.routes.ts",
+        "src/middlewares/auth.middleware.ts",
+        "src/services/report.service.ts",
+        "src/repos/order.repo.ts"
+      ],
+      "languages": [
+        "TYPESCRIPT"
+      ],
+      "support_tier": "RESOLVED",
+      "cognitive_complexity": 3,
+      "rank_score": 0.0731,
+      "is_vip_algorithm": false,
+      "is_capstone": false,
+      "uncle_bob": {
+        "instability": 0.6,
+        "abstractness": 0.3,
+        "distance": 0.1,
+        "diagnosis": "BALANCED",
+        "is_exempt": false
+      },
+      "trace_steps": [
+        {
+          "step_number": 1,
+          "layer": "ENTRY_POINT",
+          "file_path": "src/routes/report.routes.ts",
+          "function_name": "GET /reports/revenue",
+          "line_start": 6,
+          "line_end": 9,
+          "snippet": "router.get('/reports/revenue', authMiddleware, async (req, res) => {\n  const report = await reportService.revenueByMonth(req.query.year);\n  res.json(report);\n});",
+          "snippet_line_map": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "step_number": 2,
+          "layer": "MIDDLEWARE",
+          "file_path": "src/middlewares/auth.middleware.ts",
+          "function_name": "authMiddleware",
+          "line_start": 3,
+          "line_end": 12,
+          "snippet": "const JWT_SECRET = \"<REDACTED_SECRET>\";\nexport function authMiddleware(req, res, next) {\n  const token = req.headers.authorization?.split(' ')[1];\n  try {\n    req.user = jwt.verify(token, JWT_SECRET);\n    next();\n  } catch {\n    res.status(401).json({ message: 'Unauthorized' });\n  }\n}",
+          "snippet_line_map": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "step_number": 3,
+          "layer": "BUSINESS_LOGIC",
+          "file_path": "src/services/report.service.ts",
+          "function_name": "ReportService.revenueByMonth",
+          "line_start": 9,
+          "line_end": 12,
+          "snippet": "async revenueByMonth(year) {\n  const rows = await orderRepo.sumByMonth(year);\n  return rows.map((r) => ({ month: r.month, total: Number(r.total) }));\n}",
+          "snippet_line_map": [
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "step_number": 4,
+          "layer": "DATA_ACCESS",
+          "file_path": "src/repos/order.repo.ts",
+          "function_name": "OrderRepo.sumByMonth",
+          "line_start": 12,
+          "line_end": 20,
+          "snippet": "sumByMonth(year) {\n  return this.repo\n    .createQueryBuilder('o')\n    .select(\"date_trunc('month', o.created_at)\", 'month')\n    .addSelect('SUM(o.total)', 'total')\n    .where('EXTRACT(year FROM o.created_at) = :year', { year })\n    .groupBy('month')\n    .getRawMany();\n}",
+          "snippet_line_map": [
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20
+          ]
+        }
+      ],
+      "dto_snippet": "",
+      "group_id": "grp-after",
+      "entities": [
+        {
+          "name": "Order",
+          "ops": [
+            "READ"
+          ]
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "slice-register->slice-profile",
+      "source": "slice-register",
+      "target": "slice-profile",
+      "confidence": "RESOLVED",
+      "via_entities": [
+        "User"
+      ]
+    },
+    {
+      "id": "slice-profile->slice-cart",
+      "source": "slice-profile",
+      "target": "slice-cart",
+      "confidence": "RESOLVED",
+      "via_entities": []
+    },
+    {
+      "id": "slice-cart->slice-order-checkout",
+      "source": "slice-cart",
+      "target": "slice-order-checkout",
+      "confidence": "RESOLVED",
+      "via_entities": [
+        "Cart"
+      ]
+    },
+    {
+      "id": "slice-product-list->slice-order-checkout",
+      "source": "slice-product-list",
+      "target": "slice-order-checkout",
+      "confidence": "RESOLVED",
+      "via_entities": [
+        "Product"
+      ]
+    },
+    {
+      "id": "slice-order-checkout->slice-send-email",
+      "source": "slice-order-checkout",
+      "target": "slice-send-email",
+      "confidence": "INFERRED",
+      "via_entities": [
+        "Order"
+      ]
+    },
+    {
+      "id": "slice-order-checkout->slice-revenue-report",
+      "source": "slice-order-checkout",
+      "target": "slice-revenue-report",
+      "confidence": "RESOLVED",
+      "via_entities": [
+        "Order"
+      ]
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "grp-acc",
+      "key": "Tài khoản",
+      "key_kind": "ENTITY",
+      "node_ids": [
+        "slice-register",
+        "slice-profile"
+      ]
+    },
+    {
+      "group_id": "grp-buy",
+      "key": "Mua hàng",
+      "key_kind": "ENTITY",
+      "node_ids": [
+        "slice-product-list",
+        "slice-cart",
+        "slice-order-checkout"
+      ]
+    },
+    {
+      "group_id": "grp-after",
+      "key": "Sau khi mua",
+      "key_kind": "STANDALONE",
+      "node_ids": [
+        "slice-send-email",
+        "slice-revenue-report"
+      ]
+    }
+  ],
+  "symbol_whitelist": [
+    "GET /products",
+    "GET /profile",
+    "GET /reports/revenue",
+    "OrderPlaced",
+    "POST /cart/items",
+    "POST /checkout",
+    "POST /register",
+    "addItem",
+    "addItemSchema",
+    "authMiddleware",
+    "authService",
+    "cartService",
+    "categoryRepo",
+    "checkout",
+    "emailService",
+    "findByEmail",
+    "findById",
+    "getProfile",
+    "listProducts",
+    "orderRepo",
+    "orderService",
+    "productRepo",
+    "productService",
+    "register",
+    "registerSchema",
+    "reportService",
+    "revenueByMonth",
+    "sendConfirmation",
+    "sumByMonth",
+    "userRepo",
+    "userService"
+  ],
+  "file_index": [
+    "src/controllers/product.controller.ts",
+    "src/events/order-placed.handler.ts",
+    "src/middlewares/auth.middleware.ts",
+    "src/repos/category.repo.ts",
+    "src/repos/order.repo.ts",
+    "src/repos/user.repo.ts",
+    "src/routes/auth.routes.ts",
+    "src/routes/cart.routes.ts",
+    "src/routes/order.routes.ts",
+    "src/routes/report.routes.ts",
+    "src/routes/user.routes.ts",
+    "src/services/auth.service.ts",
+    "src/services/cart.service.ts",
+    "src/services/email.service.ts",
+    "src/services/order.service.ts",
+    "src/services/product.service.ts",
+    "src/services/report.service.ts",
+    "src/services/user.service.ts"
+  ],
+  "readme_excerpt": "shop-api: web bán hàng mẫu viết bằng Express, TypeORM và Postgres.",
+  "manifest_description": "Web bán hàng mẫu: đăng ký, giỏ hàng, thanh toán, báo cáo doanh thu.",
+  "ingestion_report": {
+    "truncated": false,
+    "selective_fetch": false,
+    "code_file_count": 18,
+    "manifest_count": 1,
+    "omitted_node_count": 0,
+    "skipped": {
+      "garbage": 0,
+      "binary": 0,
+      "oversized": 0,
+      "unsupported_lang": 0,
+      "quota": 0,
+      "parse_error": 0
+    },
+    "warnings": [],
+    "degraded_mode": null,
+    "redacted_secret_count": 1,
+    "engine_ms": 1840,
+    "ingest_ms": 920,
+    "suspicious_instruction_files": []
+  }
+}

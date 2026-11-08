@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <linearGradient id="sf-grad-main" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#7dd3fc" />
+      <stop offset="45%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+    <linearGradient id="sf-grad-mid" x1="5" y1="12" x2="27" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+  </defs>
+  <!-- Nửa trên chữ S hình học -->
+  <path
+    d="M26.5 4.5H10.5L5 12L8.5 18H19.5L23.5 13.8H12.2L15 9.5H23L26.5 4.5Z"
+    fill="url(#sf-grad-main)"
+  />
+  <!-- Nửa dưới chữ S hình học đối xứng tâm -->
+  <path
+    d="M5.5 27.5H21.5L27 20L23.5 13.8H12.2L8.5 18H19.8L17 22.5H9L5.5 27.5Z"
+    fill="url(#sf-grad-mid)"
+  />
+  <!-- Thanh chéo trung tâm tạo hiệu ứng dải ruy-băng 3D -->
+  <path
+    d="M8.5 13.8H23.5L27 20L23.5 18H8.5L5 12L8.5 13.8Z"
+    fill="#38bdf8"
+    fill-opacity="0.35"
+  />
+</svg>
+
